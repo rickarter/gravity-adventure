@@ -60,6 +60,9 @@ class Vector2D:
 
     def length(self):
         return math.hypot(self.x , self.y)
+
+    def length_squared(self):
+        return self.x**2 + self.y**2
     
     def normalized(self):
         return self/self.length()

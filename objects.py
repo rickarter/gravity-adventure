@@ -1,5 +1,6 @@
 from vector import Vector2D
 import pygame
+from typing import Iterable
 
 class object:
     def __init__(self, position, mass):
@@ -10,9 +11,9 @@ class object:
 
     def render(self, surface):
         pygame.draw.circle(surface, (255, 255, 255), (self.position.x, self.position.y), 5)
-
-    def on_collsion(self, other):
-        pass
+        
+    def is_colliding(self, other):
+        return self.rect.colliderect(other.rect)
 
     def update(self):
         pass

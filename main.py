@@ -1,13 +1,12 @@
-from objects import *
 from physics_world import *
+from objects import *
 from vector import Vector2D
 
-#Init window
+
 window_width = 1920
 window_height = 1080
 window = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("Gravity Adventure")
-
 # Init game variables
 world = physics_world()
 
@@ -21,6 +20,9 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                run = False
 
     window.fill((0, 0, 0))
 

@@ -6,7 +6,7 @@ class physics_world:
         self.objects = []
         self.clock = pygame.time.Clock()
         self.delta_time = 0
-        self.G = 1000000  # 0.00000000006672
+        self.G = 10000  # 0.00000000006672
         self.groups = []
 
     def resolve_groups(self):
@@ -19,21 +19,6 @@ class physics_world:
 
     def step(self, surface):
         self.resolve_groups()
-        '''for object in self.objects:
-            # Calculating resultant force
-            resultant_force = Vector2D(0, 0)
-            distance_vector = Vector2D(0, 0)
-            for other_object in self.objects:
-                if other_object != object:
-                    distance_vector = other_object.position - object.position
-                    force = distance_vector.normalized() * (object.mass*other_object.mass)/distance_vector.length_squared() * self.G
-                    resultant_force += force
-
-
-            object.force = resultant_force
-            object.velocity += object.force/object.mass * self.delta_time
-            object.position += object.velocity * self.delta_time
-            object.render(surface)'''
         # Applyinh forces
         for object in self.objects:
             object.velocity += object.force / object.mass * self.delta_time

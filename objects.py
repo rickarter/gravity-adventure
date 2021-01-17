@@ -1,6 +1,5 @@
 from vector import Vector2D
 import pygame
-from typing import Iterable
 
 class object:
     def __init__(self, position, mass):
@@ -13,7 +12,7 @@ class object:
         pygame.draw.circle(surface, (255, 255, 255), (self.position.x, self.position.y), 5)
         
     def is_colliding(self, other):
-        return self.rect.colliderect(other.rect)
+        pass
 
     def update(self):
         pass

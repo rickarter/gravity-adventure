@@ -1,6 +1,7 @@
 from physics_world import *
 from objects import *
 from vector import Vector2D
+import pygame
 
 
 window_width = 1920

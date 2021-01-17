@@ -1,4 +1,3 @@
-from pygame import time
 from objects import *
 
 class physics_world:
@@ -6,7 +5,7 @@ class physics_world:
         self.objects = []
         self.clock = pygame.time.Clock()
         self.delta_time = 0
-        self.G = 10000  # 0.00000000006672
+        self.G = 10000
         self.groups = []
 
     def resolve_groups(self):
@@ -15,7 +14,6 @@ class physics_world:
         for i in range(0, the_last_index - 1):
             for j in range(i + 1, the_last_index):
                 self.groups.append([i, j])
-        # print(self.groups)
 
     def step(self, surface):
         self.resolve_groups()

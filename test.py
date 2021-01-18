@@ -8,8 +8,8 @@ window_height = 1080
 window = pygame.display.set_mode((window_width, window_height), pygame.FULLSCREEN)
 pygame.display.set_caption("Gravity Adventure")
 
-def draw_ammo_remain(surface, current_ammo, max_ammo, position):
-    percentage = current_ammo/max_ammo
+def draw_supply_remain(surface, current, max, position):
+    percentage = current/max
     length = interpolate(0, position[2], percentage)
     pygame.draw.rect(surface, (165, 17, 133), position, 8)
     position[2] = length

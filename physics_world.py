@@ -8,15 +8,18 @@ class physics_world:
         self.G = 10000
         self.groups = []
         self.time_scale = 1
+        self.run = True
 
     def resolve_groups(self):
         self.groups.clear()
         the_last_index = self.objects.__len__()
         for i in range(0, the_last_index - 1):
             for j in range(i + 1, the_last_index):
-                self.groups.append([i, j, (self.objects[i].radius + self.objects[j].radius)**2])
+                self.groups.append([i, j, (self.objects[i].collider_radius + self.objects[j].collider_radius)**2])
 
     def step(self, surface):
+        if self.objects[0].to_break:
+            self.run = False
 
         # Apply forces
         for object in self.objects:
@@ -27,6 +30,9 @@ class physics_world:
             object.update(self.delta_time)
             object.render(surface)
             object.force = Vector2D(0, 0)
+
+            if object.to_delete:
+                self.remove_object(object)
 
         distance_vector = Vector2D(0, 0)
         for group in self.groups:

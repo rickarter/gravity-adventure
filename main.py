@@ -134,6 +134,21 @@ def level_menu(surface):
 
         if lv_button_2.collidepoint((mx, my)):
             if click:
+                world = physics_world()
+
+                world.add_object(space_ship(Vector2D(200, 1080/2)))
+                world.add_object(lava_planet(Vector2D(1920/2-200, 1080/2 + 460), 140))
+                world.add_object(lava_planet(Vector2D(1920/2-200, 1080/2 - 460), 140))
+
+                world.add_object(asteroid(Vector2D(1920/2, 1080/2 + 200), 120))
+
+                world.add_object(asteroid(Vector2D(400, 1080/2 + 120), 80))
+                world.add_object(asteroid(Vector2D(400 - 400, 1080/2 - 120), 80))
+
+                world.add_object(asteroid(Vector2D(1920/2, 1080/2 - 200), 120))
+
+                world.add_object(goal_planet(Vector2D(1920/2 + 500, 1080/2), 170))
+
                 game(surface, world)  
 
         if lv_button_3.collidepoint((mx, my)):

@@ -35,7 +35,7 @@ class lava_planet(planet):
 class goal_planet(planet):
     def __init__(self, position, radius):
         super().__init__(position, radius)
-        # self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\goal_planet.png'), (radius, radius))
+        self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\goal_planet.png'), (radius, radius))
 
 class black_hole(planet):
     def __init__(self, position, radius):
@@ -45,7 +45,7 @@ class black_hole(planet):
 class space_ship(planet):
     def __init__(self, position, radius):
         super().__init__(position, radius)
-        # self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\space_ship.png'), (radius, radius))
+        self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\space_ship.png'), (radius, radius))
     
     def on_collision(self, other):
         _type = type(other)

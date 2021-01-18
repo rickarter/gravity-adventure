@@ -3,7 +3,6 @@ from objects import *
 from vector import Vector2D
 import pygame
 
-
 window_width = 1920
 window_height = 1080
 window = pygame.display.set_mode((window_width, window_height))
@@ -22,15 +21,17 @@ def game(surface):
     # Init game variables
     world = physics_world()
 
-    world.add_object(object(Vector2D(250, 250), 90))
-    world.add_object(object(Vector2D(1920/2, 1080/2), 90))
-    world.add_object(lava_planet(Vector2D(1920/2+100, 1080/2-300), 50))
+    world.add_object(space_ship(Vector2D(1920/2, 1080/2)))
+    world.add_object(lava_planet(Vector2D(1920/2+100, 1080/2-300), 120))
+    # world.add_object(black_hole(Vector2D(1920/2, 1080/2), 120))
 
-    run = True
     is_scoping = False
     scope_object = scope(Vector2D(0, 0))
-    radius = 1
     slow_motion_scale = 0.1
+
+    bullets = []
+
+    run = True
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -50,6 +51,7 @@ def game(surface):
                     world.time_scale = 1
                 if event.button == 1:
                     is_scoping = False
+                    bullets.append([world.objects[0].position, scope_object.position, Vector2D(0, 0), 0, scope_object.radius])
 
         surface.fill((51, 51, 51))
 
@@ -57,7 +59,18 @@ def game(surface):
 
         if is_scoping:
             scope_object.render(surface)
-            scope_object.radius += world.delta_time*100
+            addition_speed = world.delta_time*100
+            if world.time_scale != 1:
+                addition_speed /= slow_motion_scale
+            scope_object.radius += addition_speed
+
+        for bullet in bullets:
+            bullet[2] = Vector2D.lerp(bullet[0], bullet[1], bullet[3])
+            bullet[3] += world.delta_time
+            pygame.draw.circle(surface, (0, 0, 0), Vector2D.vector2list(bullet[2]), 5)
+            if bullet[3] >= 1:
+                bullets.remove(bullet)
+                world.add_object(black_hole(bullet[1], bullet[4]))
 
         '''if pygame.mouse.get_pressed()[0]:
             mouse_position = pygame.mouse.get_pos()

@@ -92,24 +92,18 @@ def game(surface, new_world):
         pygame.display.update()
 
 def level_menu(surface):
+    lv1_button = menu_button(1920/2 - 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\first.png'))
+    lv2_button = menu_button(1920/2, 1080/2 , 128, 128,pygame.image.load('assets\\sprites\\second.png'))
+    lv3_button = menu_button(1920/2 + 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\third.png'))
+
     world = physics_world()
     run = True
     while run:
         surface.fill((51, 51, 51))
 
-        mx, my = pygame.mouse.get_pos()
-
-        lv1_sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\first.png'), (128, 128))    
-        lv2_sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\second.png'), (128, 128))
-        lv3_sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\third.png'), (128, 128))
-
-        surface.blit(lv1_sprite, (1920/2 - 64 - 128 - 100, 1080/2 - 64))
-        surface.blit(lv2_sprite, (1920/2 - 64, 1080/2 - 64))
-        surface.blit(lv3_sprite, (1920/2 + 64 + 100, 1080/2 - 64))
-
-        lv_button_1 = pygame.Rect(1920/2 - 64 - 128 - 100, 1080/2 - 64, 128, 128)
-        lv_button_2 = pygame.Rect(1920/2 - 64, 1080/2 - 64, 128, 128)
-        lv_button_3 = pygame.Rect(1920/2 + 64 + 100, 1080/2 - 64, 128, 128)
+        lv1_button.render(surface)
+        lv2_button.render(surface)
+        lv3_button.render(surface)
 
         click = False
         for event in pygame.event.get():
@@ -121,9 +115,10 @@ def level_menu(surface):
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     click = True
+                    click_position = pygame.mouse.get_pos()
 
-        if lv_button_1.collidepoint((mx, my)):
-            if click:
+        if click:
+            if lv1_button.is_clicked(click_position):
                 world = physics_world()
 
                 world.add_object(space_ship(Vector2D(200, 1080/2)))
@@ -131,9 +126,7 @@ def level_menu(surface):
                 world.add_object(goal_planet(Vector2D(1920/2 + 500, 1080/2), 170))
 
                 game(surface, world)
-
-        if lv_button_2.collidepoint((mx, my)):
-            if click:
+            elif lv2_button.is_clicked(click_position):
                 world = physics_world()
 
                 world.add_object(space_ship(Vector2D(200, 1080/2)))
@@ -150,24 +143,19 @@ def level_menu(surface):
                 world.add_object(goal_planet(Vector2D(1920/2 + 500, 1080/2), 170))
 
                 game(surface, world)  
-
-        if lv_button_3.collidepoint((mx, my)):
-            if click:
-                game(surface, world)
+            elif lv3_button.is_clicked(click_position):
+                pass
 
         pygame.display.update()
 
 def main_menu(surface):
+    start_button = menu_button(1920/2, 1080/2, 300, 100, pygame.image.load('assets\\sprites\\start_button.png'))
     run = True
     while run:
         
         surface.fill((51, 51, 51))
 
-        mx, my = pygame.mouse.get_pos()
-
-        button_1 = pygame.Rect(1920/2 - 200, 1080/2 - 100, 300, 100)
-        Start = pygame.transform.scale(pygame.image.load('assets\\sprites\\start_button.png'), (300, 100))
-        surface.blit(Start, (1920/2 - 200, 1080/2 - 100))   
+        start_button.render(surface)
 
         click = False
         for event in pygame.event.get():
@@ -179,9 +167,10 @@ def main_menu(surface):
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     click = True
+                    click_position = pygame.mouse.get_pos()
 
-        if button_1.collidepoint((mx, my)):
-            if click:
+        if click:
+            if start_button.is_clicked(click_position):
                 level_menu(surface)
 
         pygame.display.update()    

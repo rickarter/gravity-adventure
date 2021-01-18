@@ -102,6 +102,7 @@ class space_ship(planet):
             _type = type(other)
             if _type is goal_planet:
                 print('Collided with "goal" planet')
+                self.has_won = True
             else:
                 if _type is not black_hole:
                     self.is_destroyed = True
@@ -130,7 +131,6 @@ class space_ship(planet):
                 if button_exit.collidepoint((mx, my)):
                     if click:
                         self.to_break = True
-                        print('Hello')
 
         if self.has_won:
                 mx, my = pygame.mouse.get_pos()

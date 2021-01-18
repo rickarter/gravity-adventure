@@ -29,6 +29,7 @@ def game(surface, new_world):
     is_scoping = False
     scope_object = scope(Vector2D(0, 0))
     slow_motion_scale = 0.1
+    fast_mostion_scale = 5
 
     world = new_world
 
@@ -44,6 +45,11 @@ def game(surface, new_world):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
+                if event.key == pygame.K_SPACE:
+                    world.time_scale = fast_mostion_scale
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    world.time_scale = 1
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 3:
                     world.time_scale = slow_motion_scale
@@ -67,7 +73,7 @@ def game(surface, new_world):
         if is_scoping:
             scope_object.render(surface)
             addition_speed = world.delta_time*100
-            if world.time_scale != 1:
+            if world.time_scale < 1:
                 addition_speed /= slow_motion_scale
             if supply > 0:
                 supply -= addition_speed
@@ -82,10 +88,6 @@ def game(surface, new_world):
             if bullet[3] >= 1:
                 bullets.remove(bullet)
                 world.add_object(black_hole(bullet[1], bullet[4]))
-
-        '''if pygame.mouse.get_pressed()[0]:
-            mouse_position = pygame.mouse.get_pos()
-            world.add_object(object(Vector2D(mouse_position[0], mouse_position[1]), 1))'''
 
         pygame.display.update()
 

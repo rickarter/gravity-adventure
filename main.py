@@ -48,15 +48,16 @@ def game(surface, new_world):
                 if event.button == 3:
                     world.time_scale = slow_motion_scale
                 if event.button == 1:
-                    scope_object = scope(Vector2D.list2vector(pygame.mouse.get_pos()))
-                    is_scoping = True
+                    if supply > 0:
+                        scope_object = scope(Vector2D.list2vector(pygame.mouse.get_pos()))
+                        is_scoping = True
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 3:
                     world.time_scale = 1
                 if event.button == 1:
-                    is_scoping = False
-                    if supply > 0:
+                    if is_scoping:
+                        is_scoping = False
                         bullets.append([world.objects[0].position, scope_object.position, Vector2D(0, 0), 0, scope_object.radius])
 
         surface.fill((51, 51, 51))

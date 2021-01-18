@@ -20,8 +20,9 @@ class physics_world:
 
         # Apply forces
         for object in self.objects:
-            object.velocity += object.force / object.mass * self.delta_time
-            object.position += object.velocity * self.delta_time
+            if object.is_dynamic:
+                object.velocity += object.force / object.mass * self.delta_time
+                object.position += object.velocity * self.delta_time
 
             object.update(self.delta_time)
             object.render(surface)

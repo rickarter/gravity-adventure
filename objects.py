@@ -142,13 +142,13 @@ class space_ship(planet):
                 button_1 = pygame.Rect(1920/2 - 200, 1080/2 - 100, 300, 100)
                 Exit = pygame.transform.scale(pygame.image.load('assets\\sprites\\exit_button.png'), (300, 100))
                 surface.blit(Exit, (1920/2 - 200, 1080/2 - 100))  
-                 
+
                 click = False
                 if button_1.collidepoint((mx, my)):
                     if click:
                         self.to_break = True  
 
-                
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        click = True
+                for event in pygame.event.get():        
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if event.button == 1:
+                            click = True

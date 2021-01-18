@@ -1,9 +1,5 @@
 import math
 
-def interpolate(a, b, t):
-    t = min(max(t, 0), 1)
-    return a + (b-a)*t
-
 class Vector2D:
     def __init__(self, x, y):
         self.x = x
@@ -105,10 +101,6 @@ class Vector2D:
     @staticmethod
     def perpendicular(vector):
         return Vector2D(-vector.sin(), vector.cos())
-
-    @staticmethod
-    def lerp(a, b, t):
-        return Vector2D(interpolate(a.x, b.x, t), interpolate(a.y, b.y, t))
 
     @staticmethod
     def vector2list(vector):

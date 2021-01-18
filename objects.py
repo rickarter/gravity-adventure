@@ -1,4 +1,4 @@
-from vector import Vector2D, interpolate
+from vector import Vector2D
 import pygame
 
 class object:
@@ -15,40 +15,32 @@ class object:
     def on_collision(self, other):
         pass
 
-    def update(self, delta_time):
+    def update(self):
         pass
 
 class planet(object):
     def __init__(self, position, radius):
         self.half_of_the_radius = radius/2
-        self.sprite = self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\placeholder.png'), (int(radius), int(radius)))
+        self.sprite = self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\placeholder.png'), (int(self.radius), int(self.radius)))
         super().__init__(position, radius, radius)
+
     def render(self, surface):
         surface.blit(self.sprite, (self.position.x - self.half_of_the_radius, self.position.y - self.half_of_the_radius))
 
 class lava_planet(planet):
     def __init__(self, position, radius):
         super().__init__(position, radius)
-        self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\lava_planet.png'), (int(radius), int(radius)))
+        self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\lava_planet.png'), (radius, radius))
 
 class goal_planet(planet):
     def __init__(self, position, radius):
         super().__init__(position, radius)
-        self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\goal_planet.png'), (int(radius), int(radius)))
+        self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\goal_planet.png'), (radius, radius))
 
 class black_hole(planet):
     def __init__(self, position, radius):
         super().__init__(position, radius)
-        # self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\black_hole.png'), (int(radius), int(radius)))
-        self.radius_t = 0
-
-    def update(self, delta_time):
-        if self.radius_t < 1:
-            current_radius = interpolate(5, self.radius, self.radius_t)
-            self.half_of_the_radius = current_radius/2
-            self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\placeholder.png'), (int(current_radius), int(current_radius)))
-            self.radius_t += delta_time
-        
+        # self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\black_hole.png'), (radius, radius))
 
 class space_ship(planet):
     def __init__(self, position):

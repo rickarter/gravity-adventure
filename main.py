@@ -1,6 +1,6 @@
 from physics_world import *
 from objects import *
-from vector import Vector2D, interpolate
+from vector import Vector2D
 import pygame
 
 window_width = 1920
@@ -16,22 +16,12 @@ class scope():
     def render(self, surface):
         pygame.draw.circle(surface, (0, 0, 0), Vector2D.vector2list(self.position), self.radius)
 
-def draw_ammo_remain(surface, max_ammo, current_ammo, left_corner, right_corner):
-    fill_percentage = current_ammo/max_ammo
-    fill_length = interpolate(0, right_corner[0]-left_corner[0], fill_percentage)
-    pygame.draw.rect(surface, (255, 0, 0), (left_corner[0], left_corner[1], right_corner[0], right_corner[1]), 10)
-    # pygame.draw.rect(surface, (255, 0, 0), (left_corner[0], left_corner[1], left_corner[0]+fill_length, right_corner[1]))
-    print(fill_percentage)
-
-
-
 def game(surface):
     # Init game variables
     world = physics_world()
 
-    world.add_object(space_ship(Vector2D(200, 1080/2)))
-    world.add_object(lava_planet(Vector2D(1920/2-200, 1080/2), 120))
-    world.add_object(goal_planet(Vector2D(1920/2+400, 1080/2), 120))
+    world.add_object(space_ship(Vector2D(1920/2, 1080/2)))
+    world.add_object(lava_planet(Vector2D(1920/2+100, 1080/2-300), 120))
     # world.add_object(black_hole(Vector2D(1920/2, 1080/2), 120))
 
     is_scoping = False
@@ -39,8 +29,6 @@ def game(surface):
     slow_motion_scale = 0.1
 
     bullets = []
-
-    ammo = 500
 
     run = True
     while run:
@@ -63,8 +51,6 @@ def game(surface):
                 if event.button == 1:
                     is_scoping = False
                     bullets.append([world.objects[0].position, scope_object.position, Vector2D(0, 0), 0, scope_object.radius])
-                    ammo += scope_object.radius
-                    print(ammo)
 
         surface.fill((51, 51, 51))
 
@@ -89,11 +75,83 @@ def game(surface):
             mouse_position = pygame.mouse.get_pos()
             world.add_object(object(Vector2D(mouse_position[0], mouse_position[1]), 1))'''
 
-        # draw_ammo_remain(surface, 500, ammo, (860, 50), (960, 75))
+        pygame.display.update()
+
+def level_menu(surface):
+    while True:
+
+        surface.fill((51, 51, 51))
+
+        mx, my = pygame.mouse.get_pos()
+
+        lv1_sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\first.png'), (128, 128))    
+        lv2_sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\second.png'), (128, 128))
+        lv3_sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\third.png'), (128, 128))
+
+        surface.blit(lv1_sprite, (200, 200))
+        surface.blit(lv2_sprite, (400, 200))
+        surface.blit(lv3_sprite, (600, 200))
+
+        lv_button_1 = pygame.Rect(200, 200, 128, 128)
+        lv_button_2 = pygame.Rect(400, 200, 128, 128)
+        lv_button_3 = pygame.Rect(600, 200, 128, 128)
+
+        if lv_button_1.collidepoint((mx, my)):
+            if click:
+                game(surface)
+
+        if lv_button_2.collidepoint((mx, my)):
+            if click:
+                game(surface)  
+
+        if lv_button_3.collidepoint((mx, my)):
+            if click:
+                game(surface)  
+
+        click = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
 
         pygame.display.update()
 
-def menu(surface):
-    game(surface)
+def main_menu(surface):
+    while True:
+        
+        surface.fill((51, 51, 51))
 
-menu(window)
+        mx, my = pygame.mouse.get_pos()
+
+        button_1 = pygame.Rect(1920/2 - 200, 1080/2 - 100, 300, 100)
+        Start = pygame.transform.scale(pygame.image.load('assets\\sprites\\start_button.png'), (300, 100))
+        surface.blit(Start, (1920/2 - 200, 1080/2 - 100))   
+            
+        if button_1.collidepoint((mx, my)):
+            if click:
+                level_menu(surface)  
+
+        click = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        pygame.display.update()    
+            
+main_menu(window)
+

@@ -103,5 +103,9 @@ class Vector2D:
         return Vector2D(-vector.sin(), vector.cos())
 
     @staticmethod
-    def list(vector):
+    def vector2list(vector):
         return [vector.x, vector.y]
+
+    @staticmethod
+    def list2vector(list):
+        return Vector2D(list[0], list[1])

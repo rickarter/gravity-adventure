@@ -7,6 +7,7 @@ class physics_world:
         self.delta_time = 0
         self.G = 10000
         self.groups = []
+        self.time_scale = 1
 
     def resolve_groups(self):
         self.groups.clear()
@@ -16,7 +17,7 @@ class physics_world:
                 self.groups.append([i, j])
 
     def step(self, surface):
-        self.resolve_groups()
+
         # Applyinh forces
         for object in self.objects:
             object.velocity += object.force / object.mass * self.delta_time
@@ -33,10 +34,12 @@ class physics_world:
             self.objects[group[0]].force += current_force
             self.objects[group[1]].force += -current_force
 
-        self.delta_time = self.clock.tick(1000) / 1000
+        self.delta_time = self.clock.tick(60) / 1000 * self.time_scale
 
     def add_object(self, object):
         self.objects.append(object)
+        self.resolve_groups()
 
     def remove_object(self, object):
         self.objects.remove(object)
+        self.resolve_groups()

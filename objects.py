@@ -1,6 +1,7 @@
 from vector import Vector2D, interpolate
 import pygame
 import random
+import math
 
 class object:
     def __init__(self, position, mass, radius):
@@ -9,7 +10,7 @@ class object:
         self.force = Vector2D(0, 0)
         self.mass = mass
         self.radius = radius
-        self.collider_radius = self.radius
+        self.collider_radius = self.radius * 0.5
         self.is_dynamic = True
         self.to_delete = False
 
@@ -28,6 +29,7 @@ class planet(object):
         self.sprite = self.sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\placeholder.png'), (int(radius), int(radius)))
         super().__init__(position, radius*0.5, radius)
     def render(self, surface):
+        # pygame.draw.circle(surface, (255, 255, 255), Vector2D.vector2list(self.position), self.radius * 0.5)
         surface.blit(self.sprite, (self.position.x - self.half_of_the_radius, self.position.y - self.half_of_the_radius))
 
 class lava_planet(planet):
@@ -61,7 +63,7 @@ class asteroid(planet):
     def __init__(self, position, radius):
         super().__init__(position, radius)
         self.sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\asteroid.png'), (int(radius), int(radius)))
-        self.collider_radius = 0
+        self.collider_radius = 3
         self.is_destroyed = False
         self.particles = []
 
@@ -92,7 +94,7 @@ class space_ship(planet):
         self.sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\space_ship.png'), (self.radius, self.radius))
         self.is_destroyed = False
         self.particles = []
-        self.collider_radius = 0
+        # self.collider_radius = 0
         self.has_won = False
         self.mass = 1
         self.to_break = False
@@ -101,7 +103,6 @@ class space_ship(planet):
         if not (self.is_destroyed or self.has_won):
             _type = type(other)
             if _type is goal_planet:
-                print('Collided with "goal" planet')
                 self.has_won = True
             else:
                 if _type is not black_hole:
@@ -142,3 +143,8 @@ class space_ship(planet):
                 if button_exit.collidepoint((mx, my)):
                     if click:
                         self.to_break = True  
+
+                self.velocity = Vector2D(0, 0)
+
+    def update(self, delta_time):
+        self.sprite = pygame.transform.rotate(pygame.transform.scale(pygame.image.load('assets\\sprites\\space_ship.png'), (self.radius, self.radius)), -self.velocity.get_angle() * 180 / math.pi)

@@ -2,11 +2,12 @@ from vector import Vector2D
 import pygame
 
 class object:
-    def __init__(self, position, mass):
+    def __init__(self, position, mass, radius):
         self.position = position
         self.velocity = Vector2D(0, 0)
         self.force = Vector2D(0, 0)
         self.mass = mass
+        self.radius = radius
 
     def render(self, surface):
         pygame.draw.circle(surface, (255, 255, 255), (self.position.x, self.position.y), 5)
@@ -19,10 +20,9 @@ class object:
 
 class planet(object):
     def __init__(self, position, radius):
-        self.radius = radius
         self.half_of_the_radius = radius/2
         self.sprite = self.sprite = pygame.transform.scale(pygame.image.load('assets\sprites\placeholder.png'), (int(self.radius), int(self.radius)))
-        super().__init__(position, self.radius)
+        super().__init__(position, radius, radius)
 
     def render(self, surface):
         surface.blit(self.sprite, (self.position.x - self.half_of_the_radius, self.position.y - self.half_of_the_radius))

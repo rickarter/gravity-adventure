@@ -143,30 +143,8 @@ class space_ship(planet):
                 particle[0][0] += particle[1][0]
                 particle[0][1] += particle[1][1]
                 particle[1][1] += 0.001
-            
-            # Make exit button
-            ''' mx, my = pygame.mouse.get_pos()
-            button_exit = pygame.Rect(1920/2 - 200, 1080/2 - 100, 300, 100)
-            Exit = pygame.transform.scale(pygame.image.load('assets\\sprites\\exit_button.png'), (300, 100))
-            surface.blit(Exit, (1920/2 - 200, 1080/2 - 100))
-
-            click = pygame.mouse.get_pressed()[0]
-            if button_exit.collidepoint((mx, my)):
-            if click:
-            self.to_break = True'''
 
         if self.has_won or self.is_destroyed:
-                '''mx, my = pygame.mouse.get_pos()
-                button_exit = pygame.Rect(1920/2 - 200, 1080/2 - 100, 300, 100)
-                Exit = pygame.transform.scale(pygame.image.load('assets\\sprites\\exit_button.png'), (300, 100))
-                surface.blit(Exit, (1920/2 - 200, 1080/2 - 100))  
-
-                click = pygame.mouse.get_pressed()[0]
-                if button_exit.collidepoint((mx, my)):
-                    if click:
-                        self.to_break = True  
-                '''
-
                 self.exit_button.render(surface)
 
                 click = pygame.mouse.get_pressed()[0]

@@ -79,7 +79,7 @@ def game(surface, new_world):
                 supply -= addition_speed
                 scope_object.radius += addition_speed
 
-        draw_supply_remain(window, supply, 500, [760, 40, 400, 85])
+        draw_supply_remain(window, supply, 500, [760, 40, 400, 20])
 
         for bullet in bullets:
             bullet[2] = Vector2D.lerp(bullet[0], bullet[1], bullet[3])
@@ -92,10 +92,12 @@ def game(surface, new_world):
         pygame.display.update()
 
 def level_menu(surface):
-    lv1_button = menu_button(1920/2 - 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\first.png'))
-    lv2_button = menu_button(1920/2, 1080/2 , 128, 128,pygame.image.load('assets\\sprites\\second.png'))
-    lv3_button = menu_button(1920/2 + 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\third.png'))
 
+    lv1_button = menu_button(1920/2 - 228 - 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\first.png'))
+    lv2_button = menu_button(1920/2 - 228, 1080/2 , 128, 128,pygame.image.load('assets\\sprites\\second.png'))
+    lv3_button = menu_button(1920/2, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\third.png'))
+    lv4_button = menu_button(1920/2 + 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\first.png'))
+    lv5_button = menu_button(1920/2 + 228 + 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\first.png'))
     world = physics_world()
     run = True
     while run:
@@ -104,6 +106,8 @@ def level_menu(surface):
         lv1_button.render(surface)
         lv2_button.render(surface)
         lv3_button.render(surface)
+        lv4_button.render(surface)
+        lv5_button.render(surface)
 
         click = False
         for event in pygame.event.get():
@@ -144,8 +148,53 @@ def level_menu(surface):
 
                 game(surface, world)  
             elif lv3_button.is_clicked(click_position):
-                pass
+                world = physics_world()
+                world.add_object(space_ship(Vector2D(1920/2, 850)))
+                world.add_object(lava_planet(Vector2D(1920/2, 1080/2 - 50), 140))
+                world.add_object(lava_planet(Vector2D(200, 200), 140))
 
+                world.add_object(asteroid(Vector2D(1500, 1080/2 - 200), 120))
+
+                world.add_object(asteroid(Vector2D(1200, 1080/2 + 300), 80))
+                world.add_object(asteroid(Vector2D(400, 400), 80))
+
+                world.add_object(asteroid(Vector2D(1920/2 + 200, 1080/2 - 200), 120))
+
+                world.add_object(goal_planet(Vector2D(1920/2, 1080/2 - 250), 170))
+
+                game(surface, world)
+            elif  lv4_button.is_clicked(click_position):
+                world = physics_world()
+                world.add_object(space_ship(Vector2D(100, 100)))
+                world.add_object(lava_planet(Vector2D(450, 1080/2), 140))
+                world.add_object(lava_planet(Vector2D(940, 1080/2), 140))
+
+                world.add_object(asteroid(Vector2D(1400, 1080/2 - 200), 120))
+
+                world.add_object(asteroid(Vector2D(300, 1080/2 - 320), 120))
+                world.add_object(asteroid(Vector2D(500, 60), 80))
+
+                world.add_object(asteroid(Vector2D(1920/2 - 200, 300), 120))
+                world.add_object(asteroid(Vector2D(1920/2 - 200, 1080 - 100), 120))
+                world.add_object(goal_planet(Vector2D(1920/2 + 400,1080/2), 170))
+
+                game(surface, world)
+            elif  lv5_button.is_clicked(click_position):
+                world = physics_world()
+                world.add_object(space_ship(Vector2D(100, 1080/2)))
+                world.add_object(lava_planet(Vector2D(400, 300), 140))
+                world.add_object(lava_planet(Vector2D(850, 1080/2 - 100), 140))
+                world.add_object(lava_planet(Vector2D(1250, 1080 - 300), 140))
+
+                world.add_object(asteroid(Vector2D(1300, 100), 120))
+
+                world.add_object(asteroid(Vector2D(600, 1080/2 - 120), 80))
+                world.add_object(asteroid(Vector2D(900, 900), 80))
+
+                world.add_object(asteroid(Vector2D(100, 100), 120))
+
+                world.add_object(goal_planet(Vector2D(1450, 300), 170))
+                game(surface, world)
         pygame.display.update()
 
 def main_menu(surface):

@@ -34,6 +34,8 @@ class physics_world:
             if object.to_delete:
                 self.remove_object(object)
 
+        self.objects[0].render(surface)
+
         distance_vector = Vector2D(0, 0)
         for group in self.groups:
             # Calculate law of gravity
@@ -44,9 +46,10 @@ class physics_world:
             self.objects[group[1]].force += -current_force
 
             # Check for collisions
-            if distance_length_squared <= group[2]:
-                self.objects[group[0]].on_collision(self.objects[group[1]])
-                self.objects[group[1]].on_collision(self.objects[group[0]])
+            if self.objects[group[0]].check_collisions and self.objects[group[1]].check_collisions:
+                if distance_length_squared <= group[2]:
+                    self.objects[group[0]].on_collision(self.objects[group[1]])
+                    self.objects[group[1]].on_collision(self.objects[group[0]])
 
         self.delta_time = self.clock.tick(60) / 1000 * self.time_scale
 

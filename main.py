@@ -5,7 +5,7 @@ import pygame
 
 window_width = 1920
 window_height = 1080
-window = pygame.display.set_mode((window_width, window_height))
+window = pygame.display.set_mode((window_width, window_height), pygame.FULLSCREEN)
 pygame.display.set_caption("Gravity Adventure")
 
 class scope():
@@ -14,7 +14,7 @@ class scope():
         self.radius = 1
          
     def render(self, surface):
-        pygame.draw.circle(surface, (0, 0, 0), Vector2D.vector2list(self.position), self.radius)
+        pygame.draw.circle(surface, (0, 0, 0), Vector2D.vector2list(self.position), self.radius * 0.5)
 
 def draw_supply_remain(surface, current, max, position):
     percentage = current/max
@@ -96,8 +96,9 @@ def level_menu(surface):
     lv1_button = menu_button(1920/2 - 228 - 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\first.png'))
     lv2_button = menu_button(1920/2 - 228, 1080/2 , 128, 128,pygame.image.load('assets\\sprites\\second.png'))
     lv3_button = menu_button(1920/2, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\third.png'))
-    lv4_button = menu_button(1920/2 + 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\first.png'))
-    lv5_button = menu_button(1920/2 + 228 + 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\first.png'))
+    lv4_button = menu_button(1920/2 + 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\fourth.png'))
+    lv5_button = menu_button(1920/2 + 228 + 228, 1080/2, 128, 128,pygame.image.load('assets\\sprites\\fifth.png'))
+
     world = physics_world()
     run = True
     while run:
@@ -199,12 +200,20 @@ def level_menu(surface):
 
 def main_menu(surface):
     start_button = menu_button(1920/2, 1080/2, 300, 100, pygame.image.load('assets\\sprites\\start_button.png'))
+
+    controls_image = pygame.transform.scale(pygame.image.load('assets\\sprites\\controls.png'), (256, 256))
+    game_name_image = pygame.transform.scale(pygame.image.load('assets\\sprites\\game_name.png'), (936, 65))
+
+    controls_position = (1920/2 - 256/2, 1080/2+170)
+
     run = True
     while run:
         
         surface.fill((51, 51, 51))
 
         start_button.render(surface)
+        surface.blit(controls_image, controls_position)
+        surface.blit(game_name_image, (492, 200))
 
         click = False
         for event in pygame.event.get():

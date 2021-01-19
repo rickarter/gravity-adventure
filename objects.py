@@ -33,6 +33,7 @@ class object:
         self.collider_radius = self.radius * 0.5
         self.is_dynamic = True
         self.to_delete = False
+        self.check_collisions = True
 
     def render(self, surface):
         pygame.draw.circle(surface, (255, 255, 255), (self.position.x, self.position.y), 5)
@@ -83,7 +84,7 @@ class asteroid(planet):
     def __init__(self, position, radius):
         super().__init__(position, radius)
         self.sprite = pygame.transform.scale(pygame.image.load('assets\\sprites\\asteroid.png'), (int(radius), int(radius)))
-        self.collider_radius = 3
+        # self.collider_radius = 3
         self.is_destroyed = False
         self.particles = []
 
@@ -92,6 +93,7 @@ class asteroid(planet):
             for i in range(0, 30):
                 self.particles.append([Vector2D.vector2list(self.position), [random.randint(-50, 50)/10-1, random.randint(-50, 50)/10-1], random.randint(5, 20)])
             self.is_destroyed = True
+            self.check_collisions = False
 
     def render(self, surface):
         if not self.is_destroyed:
@@ -150,7 +152,6 @@ class space_ship(planet):
                 click = pygame.mouse.get_pressed()[0]
                 if click:
                     click_position = pygame.mouse.get_pos()
-                    print(click_position)
                     if self.exit_button.is_clicked(click_position):
                         self.to_break = True
 
